@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoBlocking | Tech Future Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0022;
+            --accent-cyan: #00e5ff;
+            --logo-pink: #ff3366;
+            --logo-orange: #ff9900;
+            --grad-futuristic: linear-gradient(135deg, #ff3366 0%, #ff9900 100%);
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Orbitron', sans-serif; /* Fuente tecnológica */
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Fondo Animado de Partículas Simplificado */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1b004b 0%, #0a0022 100%);
+        }
+
+        /* Hero Section */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-logo {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(to right, var(--accent-cyan), var(--logo-pink), var(--logo-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0,229,255,0.5));
+            letter-spacing: 10px;
+            margin: 0;
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(255, 51, 102, 0.4)); }
+            to { filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.8)); }
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 10px;
+        }
+
+        /* Secciones */
+        .container { padding: 100px 10%; position: relative; }
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            background: var(--grad-futuristic);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Grid de Servicios */
+        .grid-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--grad-futuristic);
+            transform: scaleX(0);
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-cyan);
+        }
+
+        .card:hover::before { transform: scaleX(1); }
+
+        .card i { font-size: 3rem; margin-bottom: 20px; color: var(--accent-cyan); }
+        .card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+
+        /* Servicio Estrella: Landing Pages */
+        .featured-service {
+            background: linear-gradient(rgba(10,0,34,0.8), rgba(10,0,34,0.8)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 30px;
+            padding: 60px;
+            text-align: center;
+            margin-top: 50px;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.2);
+        }
+
+        /* Stack Tecnológico */
+        .tech-pill {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--logo-pink);
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .tech-pill:hover {
+            background: var(--grad-futuristic);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+        }
+
+        /* Formulario Pro */
+        .contact-box {
+            background: var(--glass);
+            padding: 50px;
+            border-radius: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--accent-cyan); }
+
+        .btn-glow {
+            background: var(--grad-futuristic);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+        }
+
+        .btn-glow:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 35px rgba(255, 153, 0, 0.6);
+        }
+
+        /* WhatsApp Floating */
+        .wa-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 70px;
+            height: 70px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
+            transition: 0.3s;
+        }
+
+        .wa-float:hover { transform: rotate(360deg) scale(1.2); }
+
+        footer {
+            background: #050014;
+            padding: 80px 10% 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-icons a {
+            font-size: 2rem;
+            margin: 0 20px;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover { color: var(--accent-cyan); filter: drop-shadow(0 0 10px var(--accent-cyan)); }
+    </style>
+</head>
+<body>
+
+    <div id="bg-canvas"></div>
+
+    <header>
+        <h1 class="hero-logo">GEOBLOCKING</h1>
+        <p class="hero-tagline">Software & Automation ⚡ Next Gen</p>
+        <a href="#contacto" style="margin-top: 30px; color: white; text-decoration: none; border: 1px solid var(--accent-cyan); padding: 10px 25px; border-radius: 30px;">Explorar Universo 🛸</a>
+    </header>
+
+    <div class="container">
+        <h2>Servicios del Futuro 🔮</h2>
+        <div class="grid-services">
+            <div class="card">
+                <i class="fas fa-fingerprint"></i>
+                <h3>Biometría & Seguridad 🧬</h3>
+                <p>Sistemas de acceso avanzado y verificación de identidad automatizada.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-robot"></i>
+                <h3>Chatbots IA 🤖</h3>
+                <p>Mensajería inteligente con respuesta automática y lenguaje natural.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-credit-card"></i>
+                <h3>Pagos Directos 💳</h3>
+                <p>Integración experta con Webpay para carritos E-commerce 🛒.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-rocket"></i>
+                <h3>Automatización ⚙️</h3>
+                <p>Optimización de procesos críticos y flujos de trabajo inteligentes.</p>
+            </div>
+        </div>
+
+        <div class="featured-service">
+            <h3 style="font-size: 2rem; color: var(--accent-cyan);">Landing Pages Ganadoras 🚀</h3>
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 20px auto;">
+                Creamos experiencias web que convierten visitantes en clientes. Diseño <b>tecnológico, futurista y ultra-rápido</b> con la identidad de tu marca.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+                <span>✨ Diseño Único</span>
+                <span>📱 100% Mobile</span>
+                <span>🔥 Alta Conversión</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="text-align: center;">
+        <h2>Tecnologías Nucleares ⚛️</h2>
+        <div class="tech-list">
+            <span class="tech-pill">Python 🐍</span>
+            <span class="tech-pill">Java ☕</span>
+            <span class="tech-pill">C++ ⚙️</span>
+            <span class="tech-pill">Kotlin 🤖</span>
+            <span class="tech-pill">HTML5 🌐</span>
+            <span class="tech-pill">CSS3 🎨</span>
+            <span class="tech-pill">JavaScript ✨</span>
+            <span class="tech-pill">MySQL 🐬</span>
+            <span class="tech-pill">MongoDB 🍃</span>
+            <span class="tech-pill">AWS (RDS/IAM) ☁️</span>
+            <span class="tech-pill">Android Studio 📱</span>
+            <span class="tech-pill">Git 🌲</span>
+            <span class="tech-pill">Power BI 📊</span>
+            <span class="tech-pill">Pentaho ETL 🔄</span>
+            <span class="tech-pill">UML / Excel 📈</span>
+        </div>
+    </div>
+
+    <div class="container" id="contacto">
+        <h2>Inicia la Misión 🛰️</h2>
+        <div class="contact-box">
+            <form action="https://formsubmit.co/geobloking@gmail.com" method="POST">
+                <input type="text" name="name" placeholder="Nombre del Comandante / Empresa" required>
+                <input type="email" name="email" placeholder="Correo de Enlace" required>
+                <textarea name="message" rows="4" placeholder="Detalles del proyecto futurista..." required></textarea>
+                <button type="submit" class="btn-glow">Enviar Transmisión 📡</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="https://wa.me/56949818809" class="wa-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        <h3 style="letter-spacing: 5px;">GEOBLOCKING</h3>
+        <p>Expertos en Ingeniería de Software y Transformación Digital</p>
+        <div class="social-icons" style="margin: 30px 0;">
+            <a href="mailto:geobloking@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="https://instagram.com/geobloking" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/56949818809" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p style="opacity: 0.6;">📍 Contacto: geobloking@gmail.com | +569 4981 8809</p>
+        <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.4;">© 2024 GeoBlocking | Desplegando el futuro hoy.</p>
+    </footer>
+
+</body>
+</html>
